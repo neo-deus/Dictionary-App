@@ -35,7 +35,9 @@ class _MyHomePageState extends State<MyHomePage> {
   TextEditingController _inputWord = TextEditingController();
 
   StreamController _streamController = StreamController();
-  late Stream _stream;
+  Stream? _stream;
+
+  Timer? _debounce;
 
   @override
   void initState() {
@@ -91,19 +93,28 @@ class _MyHomePageState extends State<MyHomePage> {
                     borderRadius: BorderRadius.circular(24),
                   ),
                   child: TextFormField(
-                    onChanged: (String word) {},
+                    onFieldSubmitted: (value) {
+                      _search();
+                    },
+                    onChanged: (String word) {
+                      if (_debounce?.isActive ?? false) _debounce!.cancel();
+                      _debounce = Timer(const Duration(milliseconds: 2000), () {
+                        _search();
+                      });
+                    },
                     controller: _inputWord,
                     decoration: InputDecoration(
                       hintText: 'Search for a word',
                       contentPadding: EdgeInsets.only(left: 24),
                       border: InputBorder.none,
                     ),
+                    //onSubmitted: (value) => _search(),
                   ),
                 ),
               ),
               IconButton(
                 onPressed: _search,
-                icon: Icon(
+                icon: const Icon(
                   Icons.search,
                   color: Colors.white,
                 ),
