@@ -97,10 +97,10 @@ class _MyHomePageState extends State<MyHomePage> {
                       _search();
                     },
                     onChanged: (String word) {
-                      if (_debounce?.isActive ?? false) _debounce!.cancel();
-                      _debounce = Timer(const Duration(milliseconds: 2000), () {
-                        _search();
-                      });
+                      // if (_debounce?.isActive ?? false) _debounce!.cancel();
+                      // _debounce = Timer(const Duration(milliseconds: 2000), () {
+                      //   _search();
+                      // });
                     },
                     controller: _inputWord,
                     decoration: InputDecoration(
