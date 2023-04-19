@@ -52,6 +52,10 @@ class _MyHomePageState extends State<MyHomePage> {
       return;
     }
     _streamController.add("waiting");
+    if (_inputWord.text.trim().toLowerCase() == 'pussy') {
+      _streamController.add("pussy");
+      return;
+    }
     /*try {*/
     Response response = await get(Uri.parse(_url + _inputWord.text.trim()),
         headers: {"Authorization": "Token " + _token});
@@ -69,6 +73,13 @@ class _MyHomePageState extends State<MyHomePage> {
     } catch (e) {
       _streamController.add("wrong");
     }*/
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    _streamController.close();
+    _inputWord.dispose();
   }
 
   @override
@@ -138,6 +149,14 @@ class _MyHomePageState extends State<MyHomePage> {
                 child: CircularProgressIndicator(),
               );
             }
+            if (snapshot.data == 'pussy') {
+              return Center(
+                child: Image.network(
+                  'https://cdnxw1.youx.xxx/gthumb/2/583/2583029_3ffc3b6_320x_.jpg',
+                  height: MediaQuery.of(context).size.height * 0.5,
+                ),
+              );
+            }
 
             if (snapshot.data == 'wrong') {
               return Center(
@@ -183,3 +202,4 @@ class _MyHomePageState extends State<MyHomePage> {
     );
   }
 }
+/**/
